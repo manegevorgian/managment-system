@@ -14,5 +14,15 @@ class Task extends Model
         return $this->belongsTo(User::class);
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function($query)
+        {
+            $user = Auth::user()->name;
+            $query->created_by = $user;
+        });
+    }
 
 }
