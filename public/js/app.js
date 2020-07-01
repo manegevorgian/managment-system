@@ -1,0 +1,48 @@
+let filterCompany = document.querySelector('#filter_company_id')
+
+if (filterCompany) {
+    filterCompany.addEventListener('change', function () {
+        let companyId = this.value || this.options[this.selectedIndex].value;
+        window.location.href = window.location.href.split('?')[0] + '?company_id=' + companyId
+    });
+}
+
+document.querySelectorAll('.btn-delete').forEach((button) => {
+    button.addEventListener('click', function (event) {
+        event.preventDefault();
+        if (confirm("Are you sure?")) {
+            let action = this.getAttribute('href')
+            let form = document.querySelector('#form-delete')
+            form.setAttribute('action', action)
+            form.submit()
+        }
+    })
+});
+
+let btnClear = document.querySelector('#btn-clear')
+
+if (btnClear) {
+    btnClear.addEventListener('click', () => {
+        let input = document.querySelector('#search'),
+            select = document.querySelector('#filter_company_id');
+        if (input) input.value = "";
+        if (select) select.selectedIndex = 0;
+        window.location.href = window.location.href.split('?')[0];
+    });
+}
+
+const toggleClearButton = () => {
+    let query = location.search,
+        pattern = /[?&]search=/,
+        button = document.querySelector('#btn-clear');
+
+    if (button === undefined) return;
+
+    if (pattern.test(query)) {
+        button.style.display = "block";
+    } else {
+        button.style.display = "none";
+    }
+};
+
+toggleClearButton();
